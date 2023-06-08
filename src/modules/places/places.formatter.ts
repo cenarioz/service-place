@@ -20,7 +20,7 @@ export default class PlacesFormatter {
       rules: place.place_rule.map((rule) => {
         return rule.rules;
       }),
-      images: place.place_image.map((image) => {
+      images: place.images.map((image) => {
         return image;
       }),
     };

@@ -2,6 +2,15 @@ service: lambda-place
 
 frameworkVersion: "3"
 
+package:
+  exclude:
+    - .git/**
+    - src/**
+    - test/**
+    - nodemon.json
+    - README.md
+  excludeDevDependencies: true
+
 provider:
   name: aws
   runtime: nodejs16.x
@@ -10,15 +19,17 @@ provider:
   region: us-east-2
   memorySize: 128
   logRetentionInDays: 1
-  timeout: 15
 
 functions:
-  api:
+  index:
+    memorySize: 256
+    timeout: 36
     handler: dist/lambda.handler
     events:
-      - httpApi:
+      - http:
+          cors: true
+          path: "/{proxy+}"
           method: any
-          path: /{proxy+}
 
 plugins:
   - serverless-jetpack
