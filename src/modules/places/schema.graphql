@@ -1,0 +1,82 @@
+type Address {
+  id: Int!
+  street: String
+  number: String
+  neighborhood: String
+  city: String
+  state: String
+  country: String
+  complement: String
+  zip_code: String
+}
+
+type User {
+  id: Int!
+  email: String!
+  password: String!
+  name: String!
+  address: Address
+  cpf: String
+  photo: String
+  phone: String!
+}
+
+type Host {
+  id: Int!
+  user: User!
+  rating: Float
+  response_rating: Float
+  time_rating: Float
+}
+
+type Feature {
+  id: Int!
+  name: String
+}
+
+type Rule {
+  id: Int!
+  name: String
+}
+type Image {
+  id: Int!
+  path: String
+}
+
+type Details {
+  id: Int!
+  size: String
+  height: String
+  width: String
+  length: String
+  parking_spots: Boolean
+  elevator: Boolean
+  freight_elevator: Boolean
+  stairs: Boolean
+  street_level: Boolean
+  wheelchair: Boolean
+  air_conditioning: Boolean
+  wifi: Boolean
+}
+
+type Place {
+  id: Int!
+  host: Host
+  rating: Float
+  title: String
+  address: Address
+  description: String
+  value: Float
+  value_type: String
+  minimum: ID
+  type: String
+  features: [Feature]
+  rules: [Rule]
+  details: Details
+  images: [Image]
+}
+
+type Query {
+  places: [Place!]!
+  place(id: Int!): Place
+}

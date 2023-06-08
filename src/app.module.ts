@@ -1,9 +1,8 @@
 import { Logger, Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { SequelizeModule, SequelizeModuleOptions } from '@nestjs/sequelize'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { TodoModule } from './modules/todo/todo.module'
+import { ConfigModule } from '@nestjs/config'
+import { SequelizeModule } from '@nestjs/sequelize'
+import { GraphqlModule } from './modules/graphql/graphql.module'
+import { PlacesModule } from './modules/places/places.module'
 
 const logger = new Logger('Sequelize')
 @Module({
@@ -25,10 +24,8 @@ const logger = new Logger('Sequelize')
           : false,
       define: { timestamps: false, schema: 'cenarioz' },
     }),
-    TodoModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
-
+    PlacesModule,
+    GraphqlModule
+  ]
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-service: lambda-host
+service: lambda-place
 
 frameworkVersion: "3"
 
