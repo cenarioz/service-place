@@ -10,7 +10,6 @@ import { PlaceRule } from 'src/commons/models/place-rule.model';
 import { Place } from 'src/commons/models/place.model';
 import { Rule } from 'src/commons/models/rule.model';
 import { User } from 'src/commons/models/user.model';
-import { Place as PlaceType } from '../graphql/graphql.schema';
 import PlacesFormatter from './places.formatter';
 
 @Injectable()
@@ -38,7 +37,7 @@ export class PlacesService {
 
     return places;
   }
-  async getPlace(id: number): Promise<PlaceType> {
+  async getPlace(id: number): Promise<Place> {
     const place = await this.placeModel.findOne({
       nest: true,
       where: { id },
@@ -47,12 +46,12 @@ export class PlacesService {
         { model: PlaceDetails, as: 'details' },
         {
           model: PlaceFeature,
-          as: 'place_feature',
+          as: 'features',
           include: [{ model: Feature, as: 'features' }],
         },
         {
           model: PlaceRule,
-          as: 'place_rule',
+          as: 'rules',
           include: [{ model: Rule, as: 'rules' }],
         },
         {
@@ -65,6 +64,6 @@ export class PlacesService {
         },
       ],
     });
-    return this.formatter.formatter(place);
+    return this.formatter.formatter(place) as unknown as Place;
   }
 }

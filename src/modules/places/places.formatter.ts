@@ -14,10 +14,10 @@ export default class PlacesFormatter {
       address: place.address,
       details: place.details,
       host: place.host,
-      features: place.place_feature.map((feature) => {
+      features: place.features.map((feature) => {
         return feature.features;
       }),
-      rules: place.place_rule.map((rule) => {
+      rules: place.rules.map((rule) => {
         return rule.rules;
       }),
       images: place.images.map((image) => {
