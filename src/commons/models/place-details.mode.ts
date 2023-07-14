@@ -1,6 +1,5 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
-import { Place } from "./place.model";
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Column, Model, Table } from 'sequelize-typescript';
 
 @ObjectType()
 @Table({ tableName: 'place_details' })
@@ -8,14 +7,6 @@ export class PlaceDetails extends Model<PlaceDetails> {
   @Field()
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
-
-  @ForeignKey(() => Place)
-  @Field()
-  @Column
-  place_id: number;
-  
-  @BelongsTo(() => Place)
-  place?: Place
 
   @Field()
   @Column
@@ -64,6 +55,39 @@ export class PlaceDetails extends Model<PlaceDetails> {
   @Field()
   @Column
   wifi: boolean;
+
+  @Field()
+  @Column
+  max_attendees: number;
+
+  @Field({nullable: true})
+  @Column
+  price_pp_hourly_0?: number;
+  @Field({nullable: true})
+  @Column
+  price_pp_hourly_1?: number;
+  @Field({nullable: true})
+  @Column
+  price_pp_hourly_2?: number;
+  @Field({nullable: true})
+  @Column
+  price_pp_hourly_3?: number;
+  @Field({nullable: true})
+  @Column
+  price_pp_hourly_4?: number;
+  @Field({nullable: true})
+  @Column
+  price_pp_hourly_5?: number;
+
+  @Field({nullable: true})
+  @Column
+  event?: boolean;
+
+  @Field({nullable: true})
+  @Column
+  meeting?: boolean;
+
+  @Field({nullable: true})
+  @Column
+  production?: boolean;
 }
-
-

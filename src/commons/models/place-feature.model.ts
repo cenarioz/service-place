@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
 import { Feature } from "./feature.model";
 import { Place } from "./place.model";
 @ObjectType()
@@ -9,19 +9,19 @@ export class PlaceFeature extends Model<PlaceFeature> {
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
 
-  @ForeignKey(() => Place)
-  @Field()
-  @Column
-  place_id: number;
-
   @BelongsTo(() => Place)
-  place?: Place
+  place!: Place;
 
-  @ForeignKey(() => Feature)
-  @Field()
+  @ForeignKey(() => Place)
+  @PrimaryKey
   @Column
-  feature_id: number;
+  place_id!: number;
 
   @BelongsTo(() => Feature)
-  features: Feature[];
+  feature!: Feature;
+
+  @ForeignKey(() => Feature)
+  @PrimaryKey
+  @Column
+  feature_id!: number;
 }

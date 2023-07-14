@@ -31,6 +31,7 @@ export class User extends Model<User> {
   @Column
   address_id: number;
 
+  @Field()
   @BelongsTo(() => Address)
   address: Address;
 

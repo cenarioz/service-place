@@ -1,7 +1,7 @@
 service: lambda-place
 
 frameworkVersion: "3"
-
+useDotenv: true
 package:
   exclude:
     - .git/**
@@ -21,15 +21,13 @@ provider:
   logRetentionInDays: 1
 
 functions:
-  index:
-    memorySize: 256
+  api:
     timeout: 36
     handler: dist/lambda.handler
     events:
-      - http:
-          cors: true
-          path: "/{proxy+}"
+      - httpApi:
           method: any
+          path: /{proxy+}
 
 plugins:
   - serverless-jetpack

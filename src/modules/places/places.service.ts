@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { Address } from 'src/commons/models/address.model';
-import { Feature } from 'src/commons/models/feature.model';
 import { Host } from 'src/commons/models/host.model';
-import { PlaceDetails } from 'src/commons/models/place-details.mode';
-import { PlaceFeature } from 'src/commons/models/place-feature.model';
 import { PlaceImage } from 'src/commons/models/place-image.model';
-import { PlaceRule } from 'src/commons/models/place-rule.model';
+import { PlaceOpeningHour } from 'src/commons/models/place-opening-hour.model';
 import { Place } from 'src/commons/models/place.model';
-import { Rule } from 'src/commons/models/rule.model';
 import { User } from 'src/commons/models/user.model';
 import PlacesFormatter from './places.formatter';
 
@@ -18,12 +15,17 @@ export class PlacesService {
     @InjectModel(Place)
     private readonly placeModel: typeof Place,
     private readonly formatter: PlacesFormatter,
+    private readonly sequelize: Sequelize,
   ) {}
 
   async getPlaces(): Promise<Place[]> {
     const places = await this.placeModel.findAll({
       include: [
         { model: Address },
+        {
+          model: PlaceOpeningHour,
+          as: 'opening_hours',
+        },
         {
           model: Host,
           include: [{ model: User, include: [{ model: Address }] }],
@@ -37,32 +39,12 @@ export class PlacesService {
 
     return places;
   }
-  async getPlace(id: number): Promise<Place> {
+
+  async getPlace(id: number, includes): Promise<Place> {
     const place = await this.placeModel.findOne({
       nest: true,
       where: { id },
-      include: [
-        { model: Address },
-        { model: PlaceDetails, as: 'details' },
-        {
-          model: PlaceFeature,
-          as: 'features',
-          include: [{ model: Feature, as: 'features' }],
-        },
-        {
-          model: PlaceRule,
-          as: 'rules',
-          include: [{ model: Rule, as: 'rules' }],
-        },
-        {
-          model: PlaceImage,
-        },
-
-        {
-          model: Host,
-          include: [{ model: User, include: [{ model: Address }] }],
-        },
-      ],
+      include: includes,
     });
     return this.formatter.formatter(place) as unknown as Place;
   }

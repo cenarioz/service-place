@@ -1,10 +1,11 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { BelongsTo, Column, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { Category } from "./category.model";
 import { Place } from "./place.model";
-import { Rule } from "./rule.model";
+
 @ObjectType()
-@Table({ tableName: 'place_rule' })
-export class PlaceRule extends Model<PlaceRule> {
+@Table({ tableName: 'place_category' })
+export class PlaceCategory extends Model<PlaceCategory> {
   @Field()
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
@@ -17,11 +18,11 @@ export class PlaceRule extends Model<PlaceRule> {
   @Column
   place_id!: number;
 
-  @BelongsTo(() => Rule)
-  rule!: Rule;
+  @BelongsTo(() => Category)
+  category!: Category;
 
-  @ForeignKey(() => Rule)
+  @ForeignKey(() => Category)
   @PrimaryKey
   @Column
-  rule_id!: number;
+  category_id!: number;
 }
