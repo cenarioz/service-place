@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { Place } from './place.model';
 
 @ObjectType()
 @Table({ tableName: 'place_details' })
@@ -63,18 +64,23 @@ export class PlaceDetails extends Model<PlaceDetails> {
   @Field({nullable: true})
   @Column
   price_pp_hourly_0?: number;
+
   @Field({nullable: true})
   @Column
   price_pp_hourly_1?: number;
+
   @Field({nullable: true})
   @Column
   price_pp_hourly_2?: number;
+
   @Field({nullable: true})
   @Column
   price_pp_hourly_3?: number;
+
   @Field({nullable: true})
   @Column
   price_pp_hourly_4?: number;
+  
   @Field({nullable: true})
   @Column
   price_pp_hourly_5?: number;
@@ -90,4 +96,8 @@ export class PlaceDetails extends Model<PlaceDetails> {
   @Field({nullable: true})
   @Column
   production?: boolean;
+
+  @Field((type) => [Place], { nullable: true })
+  @HasMany(() => Place)
+  place: Place;
 }

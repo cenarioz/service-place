@@ -26,7 +26,7 @@ import { Rule } from './rule.model';
 @ObjectType()
 @Table({ tableName: 'place' })
 export class Place extends Model<Place> {
-  @Field()
+  @Field({ nullable: true })
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
 
@@ -38,11 +38,11 @@ export class Place extends Model<Place> {
   @BelongsTo(() => Host)
   host?: Host;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   rating: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   title: string;
 
@@ -50,27 +50,27 @@ export class Place extends Model<Place> {
   @Column
   address_id: number;
 
-  @Field()
+  @Field({ nullable: true })
   @BelongsTo(() => Address)
   address?: Address;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   description: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   value: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   value_type: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   minimum: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column
   type: string;
 
@@ -94,7 +94,7 @@ export class Place extends Model<Place> {
   @HasMany(() => PlaceBooking)
   bookings?: PlaceBooking;
 
-  @Field(() => [PlaceCategory]!)
+  @Field(() => [PlaceCategory]!, { nullable: true })
   @HasMany(() => PlaceCategory)
   placeCategories: PlaceCategory[];
 
@@ -104,7 +104,7 @@ export class Place extends Model<Place> {
   })
   categories!: Category[];
 
-  @Field(() => [PlaceAmenity]!)
+  @Field(() => [PlaceAmenity]!, { nullable: true })
   @HasMany(() => PlaceAmenity)
   placeAmenities: PlaceAmenity[];
 
@@ -114,7 +114,7 @@ export class Place extends Model<Place> {
   })
   amenities!: Amenity[];
 
-  @Field(() => [PlaceRule]!)
+  @Field(() => [PlaceRule]!, { nullable: true })
   @HasMany(() => PlaceRule)
   placeRules: PlaceRule[];
 
@@ -124,7 +124,7 @@ export class Place extends Model<Place> {
   })
   rules!: Rule[];
 
-  @Field(() => [PlaceFeature]!)
+  @Field(() => [PlaceFeature]!, { nullable: true })
   @HasMany(() => PlaceFeature)
   PlaceFeatures: PlaceFeature[];
 
@@ -133,4 +133,22 @@ export class Place extends Model<Place> {
     through: { model: () => PlaceFeature },
   })
   features!: Feature[];
+
+  @Field({ nullable: true })
+  distance: number;
+
+  @Field({ nullable: true })
+  count: number;
+}
+
+@ObjectType()
+export class dynamicFilter {
+  @Field({ nullable: true })
+  minValue: number;
+  @Field({ nullable: true })
+  maxValue: number;
+  @Field({ nullable: true })
+  mediumValue: number;
+  @Field({ nullable: true })
+  numPlaces: number;
 }
